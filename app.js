@@ -27,6 +27,14 @@ let server = http.createServer(function(req, res) {
     res.setHeader('Cache-Control', 'no-cache, no-store');
     res.writeHead(200);
     res.end(msg);
+  } else if (url.indexOf('/phimg?') === 0) {
+    var param = url.substr(7);
+    msg = '<h1>Image URL found</h1>';
+    msg += '<p>Got a request for "' + param + '"</p>';
+    res.setHeader('Content-Type', 'text/html');
+    res.setHeader('Cache-Control', 'no-cache, no-store');
+    res.writeHead(200);
+    res.end(msg);
   } else {
     fs.readFile('./static' + url, function(err, data) {
       if (err) {
