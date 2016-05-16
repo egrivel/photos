@@ -14,13 +14,17 @@ let server = http.createServer(function (req, res) {
   // IMPORTANT: Your application HAS to respond to GET /health with status 200
   //            for OpenShift health monitoring
 
-  if (url == '/health') {
+  if (url === '/health') {
     res.writeHead(200);
     res.end();
-  } else if (url.indexOf('/info/') == 0) {
+  } else if (url.indexOf('/info/') === 0) {
     res.setHeader('Content-Type', 'application/json');
     res.setHeader('Cache-Control', 'no-cache, no-store');
     res.end(JSON.stringify(sysInfo[url.slice(6)]()));
+  } else if (url.indexOf('/phimg') === 0) {
+    res.setHeader('Content-Type', 'text/html');
+    res.writeHead(200);
+    res.end('<h1>Hello, other world!</h1>');
   } else {
     fs.readFile('./static' + url, function (err, data) {
       if (err) {
