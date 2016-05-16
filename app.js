@@ -24,7 +24,7 @@ let server = http.createServer(function(req, res) {
   } else if (url.indexOf('/phimg') === 0) {
     res.setHeader('Content-Type', 'text/html');
     res.writeHead(200);
-    res.end('<h1>Hello, other world!</h1><p>Got the URL \'' + url + '\'');
+    res.end('<h1>Hello, other world!</h1><p>Got the URL \'' + url + '\'</p>');
   } else {
     fs.readFile('./static' + url, function(err, data) {
       if (err) {
