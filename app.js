@@ -12,6 +12,7 @@ let server = http.createServer(function(req, res) {
     url += 'index.html';
   }
 
+  var msg = '<h1>See if this works</h1><p>Got the URL \'' + url + '\'</p>';
   // IMPORTANT: Your application HAS to respond to GET /health with status 200
   //            for OpenShift health monitoring
   if (url === '/health') {
@@ -24,7 +25,7 @@ let server = http.createServer(function(req, res) {
   } else if (url.indexOf('/phimg') === 0) {
     res.setHeader('Content-Type', 'text/html');
     res.writeHead(200);
-    res.end('<h1>Hello, other world!</h1><p>Got the URL \'' + url + '\'</p>');
+    res.end(msg);
   } else {
     fs.readFile('./static' + url, function(err, data) {
       if (err) {
