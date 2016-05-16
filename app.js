@@ -24,6 +24,7 @@ let server = http.createServer(function(req, res) {
     res.end(JSON.stringify(sysInfo[url.slice(6)]()));
   } else if (url.indexOf('/phimg') === 0) {
     res.setHeader('Content-Type', 'text/html');
+    res.setHeader('Cache-Control', 'no-cache, no-store');
     res.writeHead(200);
     res.end(msg);
   } else {
