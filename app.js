@@ -26,15 +26,15 @@ let server = http.createServer(function(req, res) {
     res.setHeader('Cache-Control', 'no-cache, no-store');
     res.end(JSON.stringify(sysInfo[url.slice(6)]()));
   } else if (url.indexOf('/photos') === 0) {
-    console.log('static file ' + url);
+    // console.log('static file ' + url);
     fs.readFile('./static' + url, function(err, data) {
       if (err) {
         res.writeHead(404);
         res.end();
       } else {
         let ext = path.extname(url).slice(1);
-        console.log('Got extension ' + ext + ', content type ' +
-          contentTypes[ext]);
+        // console.log('Got extension ' + ext + ', content type ' +
+        //   contentTypes[ext]);
         res.setHeader('Content-Type', contentTypes[ext]);
         if (ext === 'html') {
           res.setHeader('Cache-Control', 'no-cache, no-store');
@@ -42,9 +42,9 @@ let server = http.createServer(function(req, res) {
         res.end(data);
       }
     });
-    console.log('--> done static file ' + url);
+    // console.log('--> done static file ' + url);
   } else if (url.indexOf('/ph') === 0) {
-    console.log('forwarding url ' + url);
+    // console.log('forwarding url ' + url);
     var remoteIP = '173.64.119.113';
     var remotePort = 31415;
     var remotePrefix = '/cgi-bin/photos';
@@ -93,9 +93,17 @@ let server = http.createServer(function(req, res) {
     //   console.log('done error forwarding url ' + url);
     // });
     // curl.perform();
-    var proxy = http.createClient(remotePort, remoteIP);
-    var proxyRequest = proxy.request(req.method, remotePrefix + req.url,
-      req.headers);
+    var options = {
+      port: remotePort,
+      host: remoteIP,
+      methop: req.method,
+      path: remotePrefix + req.url,
+      headers: req.headers
+    };
+    // var proxy = http.createClient(remotePort, remoteIP);
+    // var proxyRequest = proxy.request(req.method, remotePrefix + req.url,
+    //   req.headers);
+    var proxyRequest = http.request(options);
     proxyRequest.addListener('response', function(proxyResponse) {
       proxyResponse.addListener('data', function(chunk) {
         res.write(chunk, 'binary');
