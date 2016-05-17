@@ -7,7 +7,7 @@ const contentTypes = require('./utils/content-types');
 const sysInfo = require('./utils/sys-info');
 const env = process.env;
 
-var Curl = require('node-libcurl').Curl;
+// var Curl = require('node-libcurl').Curl;
 
 let server = http.createServer(function(req, res) {
   let url = req.url;
@@ -15,7 +15,7 @@ let server = http.createServer(function(req, res) {
     url += 'index.html';
   }
 
-  var msg = '<h1>See if this works</h1><p>Got the URL \'' + url + '\'</p>';
+  // var msg = '<h1>See if this works</h1><p>Got the URL \'' + url + '\'</p>';
   // IMPORTANT: Your application HAS to respond to GET /health with status 200
   //            for OpenShift health monitoring
   if (url === '/health') {
@@ -45,47 +45,72 @@ let server = http.createServer(function(req, res) {
     console.log('--> done static file ' + url);
   } else if (url.indexOf('/ph') === 0) {
     console.log('forwarding url ' + url);
-    var remoteUrl = 'http://173.64.119.113:31415/cgi-bin/photos' + url;
-    var curl = new Curl();
-    curl.setOpt('URL', remoteUrl);
-    curl.setOpt('FOLLOWLOCATION', true);
-    curl.on('end', function(statusCode, body, headers) {
-      msg = '<h1>Photo URL found</h1>';
-      msg += '<p>Translate this to call ' + remoteUrl + '</p>';
-      msg += '<ul>';
-      for (var key in headers[0]) {
-        if (!headers[0].hasOwnProperty(key)) {
-          continue;
-        }
-        if (key === 'result') {
-          continue;
-        }
-        res.setHeader(key, headers[0][key]);
-        msg += '<li>' + key + ': ' + JSON.stringify(headers[0][key]) + '</li>';
-      }
-      msg += '</ul>';
-      msg += '<p>headers: ' + JSON.stringify(headers) + '</p>';
-      // res.setHeader('Content-Type', 'text/html');
-      // res.setHeader('Cache-Control', 'no-cache, no-store');
-      res.writeHead(statusCode);
-      res.end(body);
-      console.log('done success forwarding url ' + url);
-      console.log(msg);
-      console.log('body length is ' + body.length);
+    var remoteIP = '173.64.119.113';
+    var remotePort = 31415;
+    var remotePrefix = '/cgi-bin/photos';
+    // var curl = new Curl();
+    // curl.setOpt('URL', remoteUrl);
+    // curl.setOpt('FOLLOWLOCATION', true);
+    // curl.setOpt('HTTP_CONTENT_DECODING', 0);
+    // curl.setOpt('HTTP_TRANSFER_DECODING', 0);
+    // curl.on('end', function(statusCode, body, headers) {
+    //   msg = '<h1>Photo URL found</h1>';
+    //   msg += '<p>Translate this to call ' + remoteUrl + '</p>';
+    //   msg += '<ul>';
+    //   for (var key in headers[0]) {
+    //     if (!headers[0].hasOwnProperty(key)) {
+    //       continue;
+    //     }
+    //     if (key === 'result') {
+    //       continue;
+    //     }
+    //     res.setHeader(key, headers[0][key]);
+    //     msg += '<li>' + key + ': ' + JSON.stringify(headers[0][key]) + '</li>';
+    //   }
+    //   msg += '</ul>';
+    //   msg += '<p>headers: ' + JSON.stringify(headers) + '</p>';
+    //   var stream = fs.createWriteStream('test2.jpg');
+    //   stream.write(body);
+    //   stream.end();
+    //   // res.setHeader('Content-Type', 'text/html');
+    //   // res.setHeader('Cache-Control', 'no-cache, no-store');
+    //   res.writeHead(statusCode);
+    //   res.end(body);
+    //   console.log('done success forwarding url ' + url);
+    //   console.log(msg);
+    //   console.log('body length is ' + body.length);
+    // });
+    // curl.on('error', function(statusCode, headers) {
+    //   msg = '<h1>Error connecting</h1>';
+    //   msg += '<p>Translate this to call ' + remoteUrl + '</p>';
+    //   msg += '<p>status code: ' + statusCode + '</p>';
+    //   msg += '<p>headers: ' + JSON.stringify(headers) + '</p>';
+    //   res.setHeader('Content-Type', 'text/html');
+    //   res.setHeader('Cache-Control', 'no-cache, no-store');
+    //   res.writeHead(200);
+    //   res.end(msg);
+    //   curl.close.bind(curl);
+    //   console.log('done error forwarding url ' + url);
+    // });
+    // curl.perform();
+    var proxy = http.createClient(remotePort, remoteIP);
+    var proxyRequest = proxy.request(req.method, remotePrefix + req.url,
+      req.headers);
+    proxyRequest.addListener('response', function(proxyResponse) {
+      proxyResponse.addListener('data', function(chunk) {
+        res.write(chunk, 'binary');
+      });
+      proxyResponse.addListener('end', function() {
+        res.end();
+      });
+      res.writeHead(proxyResponse.statusCode, proxyResponse.headers);
     });
-    curl.on('error', function(statusCode, headers) {
-      msg = '<h1>Error connecting</h1>';
-      msg += '<p>Translate this to call ' + remoteUrl + '</p>';
-      msg += '<p>status code: ' + statusCode + '</p>';
-      msg += '<p>headers: ' + JSON.stringify(headers) + '</p>';
-      res.setHeader('Content-Type', 'text/html');
-      res.setHeader('Cache-Control', 'no-cache, no-store');
-      res.writeHead(200);
-      res.end(msg);
-      curl.close.bind(curl);
-      console.log('done error forwarding url ' + url);
+    req.addListener('data', function(chunk) {
+      proxyRequest.write(chunk, 'binary');
     });
-    curl.perform();
+    req.addListener('end', function() {
+      proxyRequest.end();
+    });
   } else {
     fs.readFile('./static' + url, function(err, data) {
       if (err) {
