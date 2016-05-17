@@ -43,7 +43,7 @@ let server = http.createServer(function(req, res) {
     var options = {
       port: remotePort,
       host: remoteIP,
-      methop: req.method,
+      method: req.method,
       path: remotePrefix + req.url,
       headers: req.headers
     };
