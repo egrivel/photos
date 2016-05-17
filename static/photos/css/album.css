@@ -1,0 +1,239 @@
+body, h1, h2, h3, h4, h5, h6, p {
+  margin: 0;
+  padding: 0;
+  font-size: 20px;
+  font-weight: normal;
+  font-family: "Droid Serif", Georgia, "Times New Roman", serif;
+  letter-spacing: 0.5px;
+}
+
+div.header {
+  text-align: center;
+  position: relative;
+  margin-bottom: 2em;
+}
+
+div.header, div.header img, div.banner, div.banner img {
+  width: 100%;
+}
+
+div.header div.header-text {
+  position: absolute;
+  width: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  -ms-transform: translate(-50%, -50%);
+  color: #ffffff;
+  text-shadow: 2px 2px 5px #000000;
+}
+
+div.header h1 {
+  font-size: 400%;
+  text-align: center;
+  font-family: Dosis, Arial, Helvetica, sans-serif;
+  letter-spacing: 0.4em;
+}
+
+@media(max-width: 799px) {
+  div.header h1 {
+    font-size: 9.7vw;
+  }
+  div.header p {
+    font-size: 2.5vw;
+  }
+}
+
+div.header p {
+  text-align: center;
+  letter-spacing: 0.25em;
+}
+
+div.instructions {
+  max-width: 50em;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  font-family: "Merriweather Sans", Arial, Helvetica, sans-serif;
+  font-size: 80%;
+  color: #444444;
+  letter-spacing: 0;
+  margin-top: -2em;
+  margin-bottom: 1.5em;
+  text-align: justify;
+}
+
+div.content {
+  max-width: 40em;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  line-height: 1.5;
+  margin-bottom: 1em;
+}
+
+div.banner {
+  margin-bottom: 1em;
+}
+
+h2 {
+  font-size: 200%;
+  font-family: Lato, Arial, Helvetica, sans-serif;
+  font-weight: 900;
+  color: #333333;    /* such a heavy font, make it less black */
+  letter-spacing: 0.2em;
+  margin-top: 1em;
+}
+
+p {
+  text-align: justify;
+}
+
+div.imageblock {
+  position: relative;
+  max-width: 42em;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 1em;
+}
+
+/* If image blocks are consequitive, limit spacing between them */
+div.imageblock + div.imageblock {
+  margin-top: -0.75em;
+}
+
+div.imageblock img {
+  border: none;
+}
+
+img.landscape-100 {
+  width: 100%;
+}
+
+img.landscape-66 {
+  width: 68%;
+}
+
+img.landscape-52 {
+  width: 52.2%;
+}
+
+img.landscape-50 {
+  width: 49%;
+}
+
+img.landscape-40 {
+  width: 40.25%;
+}
+
+img.landscape-33 {
+  width: 32.5%;
+}
+
+img.landscape-25 {
+  width: 24.2%;
+}
+
+img.portrait-50 {
+  width: 49%;
+}
+
+img.portrait-34 {
+  width: 30.22%;
+}
+
+img.portrait-33 {
+  width: 32.5%;
+}
+
+img.portrait-25 {
+  width: 24.5%;
+}
+
+img.portrait-23 {
+  width: 23.2%;
+}
+
+img.portrait-20 {
+  width: 17.75%;
+}
+
+img.middle {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  -ms-transform: translate(-50%, 0);
+}
+
+img.right {
+  float: right;
+}
+
+div.footer {
+  margin-top: 1em;
+  background-color: #444444;
+  color: #ffffff;
+  padding: 2em;
+}
+
+div.footer p {
+  max-width: 42em;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.5;
+  font-family: "Merriweather Sans", Arial, Helvetica, sans-serif;
+  text-align: center;
+  letter-spacing: 0.1em;
+}
+
+/* ============================================================ */
+/* Album list                                                   */
+/* ============================================================ */
+
+body.albumlist {
+  padding: 1em;
+}
+
+body.albumlist div.content {
+  margin: 0;
+  padding: 0;
+}
+
+body.albumlist h1 {
+  font-size: 120%;
+  letter-spacing: 0;
+  text-align: left;
+  font-family: "Merriweather Sans", Arial, Helvetica, sans-serif;
+  margin-bottom: 0.5em;
+}
+
+body.albumlist p {
+  font-family: "Merriweather Sans", Arial, Helvetica, sans-serif;
+}
+
+/* ============================================================ */
+/* Single Image Page                                            */
+/* This page has a single <div> in the body, which contains the */
+/* <img> tag and an optional caption.                           */
+/* Make the <div> displayed horizontally and vertically         */
+/* centered on the page.                                        */
+/* ============================================================ */
+
+body.image {
+  background-color: #333333;
+  color: #ffffff;
+  position: absolute;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+}
+
+body.image div {
+  display: inline-block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+}
