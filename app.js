@@ -1,6 +1,7 @@
 'use strict';
 
 const http = require('http');
+const https = require('https');
 const fs = require('fs');
 const path = require('path');
 const contentTypes = require('./utils/content-types');
@@ -38,7 +39,7 @@ let server = http.createServer(function(req, res) {
     });
   } else if (url.indexOf('/ph') === 0) {
     var remoteIP = '173.64.119.113';
-    var remotePort = 31415;
+    var remotePort = 4433;
     var remotePrefix = '/cgi-bin/photos';
     var options = {
       port: remotePort,
@@ -48,7 +49,13 @@ let server = http.createServer(function(req, res) {
       headers: req.headers
     };
 
-    var proxyRequest = http.request(options);
+    // We know that the target system (the home server) has a self-signed
+    // certificate. The main point of using HTTPS here is to have an
+    // encrypted communication channel to prevent eavesdropping. Turning
+    // off the authorization probably allows a man-in-the-middle attack,
+    // but we can live with that.
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+    var proxyRequest = https.request(options);
     proxyRequest.addListener('response', function(proxyResponse) {
       proxyResponse.addListener('data', function(chunk) {
         res.write(chunk, 'binary');
