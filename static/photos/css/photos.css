@@ -416,7 +416,8 @@ img.imagelandscape,
 img.privatelandscape,
 img.kidslandscape,
 img.nicolinelandscape,
-img.experimentallandscape {
+img.experimentallandscape,
+img.otherslandscape {
   border: none;
   width: 150px;
   height: 100px;
@@ -428,7 +429,8 @@ div.imagelist img.imagelandscape,
 div.imagelist img.privatelandscape,
 div.imagelist img.kidslandscape,
 div.imagelist img.nicolinelandscape,
-div.imagelist img.experimentallandscape {
+div.imagelist img.experimentallandscape,
+div.imagelist img.otherslandscape {
   padding-left: 28px;
   padding-right: 28px;
   margin-top: 53px;
@@ -439,7 +441,8 @@ img.imageportrait,
 img.privateportrait,
 img.kidsportrait,
 img.nicolineportrait,
-img.experimentalportrait {
+img.experimentalportrait,
+img.othersportrait {
   border: none;
   width: 100px;
   height: 150px;
@@ -451,7 +454,8 @@ div.imagelist img.imageportrait,
 div.imagelist img.privateportrait,
 div.imagelist img.kidsportrait,
 div.imagelist img.nicolineportrait,
-div.imagelist img.experimentalportrait {
+div.imagelist img.experimentalportrait,
+div.imagelist img.othersportrait {
   padding-left: 53px;
   padding-right: 53px;
   margin-top: 28px;
@@ -505,6 +509,16 @@ div.experimentallandscape {
 
 div.experimentalportrait {
   background-image: url("../images/photo_experimental_portrait.png");
+  background-repeat: no-repeat;
+}
+
+div.otherslandscape {
+  background-image: url("../images/photo_others.png");
+  background-repeat: no-repeat;
+}
+
+div.othersportrait {
+  background-image: url("../images/photo_others_portrait.png");
   background-repeat: no-repeat;
 }
 
