@@ -38,7 +38,7 @@ let server = http.createServer(function(req, res) {
       }
     });
   } else if (url.indexOf('/ph') === 0) {
-    var remoteIP = '173.64.119.113';
+    var remoteIP = '71.121.234.125';
     var remotePort = 4433;
     var remotePrefix = '/cgi-bin/photos';
     var options = {
